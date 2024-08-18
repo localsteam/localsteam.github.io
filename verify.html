@@ -32,8 +32,8 @@
         <input type="text" id="userId" placeholder="UserID / Verify Key" />
         <button id="convertButton" onclick="handleButtonClick()">Get Key</button>
         <div class="popup-box" id="popupBox">
-            <p>Pop up will appear after one click, then you can view your key</p>
-            <button onclick="openKeyPopup()">View Key</button>
+            <p>After clicking the buttons, pop-ups will appear, and then you can view your key.</p>
+            <button onclick="openKeyPopup()">Keysystem [ 1/2 ]</button>
         </div>
         <div class="key-display" id="keyDisplay"></div>
         <div class="key-info" id="keyInfo"></div>
@@ -50,6 +50,7 @@
         };
 
         let generatedKey = '';
+        let keyStep = 1;
 
         function handleButtonClick() {
             const userId = document.getElementById('userId').value;
@@ -67,20 +68,26 @@
         }
 
         function openKeyPopup() {
-            window.open("https://bloxflip.com/a/intel", '_blank');
-
             const keyDisplay = document.getElementById('keyDisplay');
-            keyDisplay.textContent = `KEY: ${generatedKey}`;
-            keyDisplay.style.display = 'block';
-
             const keyInfo = document.getElementById('keyInfo');
-            keyInfo.textContent = `1. /getcode (MUST DO THIS FIRST BEFORE GETTING A KEY)\n` +
-                                  `2. Get Key from the current site\n` +
-                                  `3. /verify ${generatedKey}`;
-            keyInfo.style.display = 'block';
-
             const popupBox = document.getElementById('popupBox');
-            popupBox.remove(); // Remove the popup box from the DOM
+
+            if (keyStep === 1) {
+                window.open("https://bloxflip.com/a/intel", '_blank');
+                keyDisplay.textContent = "Keysystem [ 1/2 ]";
+                keyDisplay.style.display = 'block';
+                popupBox.querySelector("button").textContent = "Keysystem [ 2/2 ]";
+                keyStep++;
+            } else if (keyStep === 2) {
+                window.open("https://blox.game/rancid-clock", '_blank');
+                keyDisplay.textContent = `KEY: ${generatedKey}`;
+                keyInfo.textContent = `1. /getcode (MUST DO THIS FIRST BEFORE GETTING A KEY)\n` +
+                                      `2. Get Key from the current site\n` +
+                                      `3. /verify ${generatedKey}`;
+                keyDisplay.style.display = 'block';
+                keyInfo.style.display = 'block';
+                popupBox.remove(); // Remove the popup box from the DOM
+            }
         }
 
         window.onload = function() {
